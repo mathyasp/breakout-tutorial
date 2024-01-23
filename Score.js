@@ -7,6 +7,12 @@ class Score extends Sprite {
     this.font = font;
   }
 
+  render(ctx) {
+    ctx.font = this.font;
+    ctx.fillStyle = this.color;
+    ctx.fillText(`Score: ${this.score}`, this.x, this.y);
+  }
+
   update(points) {
     this.score += points;
   }

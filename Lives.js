@@ -7,6 +7,12 @@ class Lives extends Sprite {
     this.font = font;
   }
 
+  render(ctx) {
+    ctx.font = '16px Arial';
+    ctx.fillStyle = '#0095DD';
+    ctx.fillText(`Lives: ${this.lives}`, this.x, this.y);
+  }
+
   loseLife() {
     this.lives -= 1;
   }
