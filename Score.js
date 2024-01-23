@@ -1,4 +1,4 @@
-import Sprite from './Sprite';
+import Sprite from './Sprite.js';
 
 class Score extends Sprite {
   constructor(x, y, color = '#0095DD', score = 0, font = '16px Arial') {

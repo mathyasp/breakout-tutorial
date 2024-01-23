@@ -1,4 +1,9 @@
 /* eslint-disable no-alert */
+import Brick from './Brick.js';
+import Ball from './Ball.js';
+import Paddle from './Paddle.js';
+import Score from './Score.js';
+
 const canvas = document.getElementById('myCanvas');
 const ctx = canvas.getContext('2d');
 let x = canvas.width / 2;
@@ -20,14 +25,14 @@ const brickHeight = 20;
 const brickPadding = 15;
 const brickOffsetTop = 30;
 const brickOffsetLeft = 22.5;
-let score = 0;
+const score = new Score(8, 20);
 let lives = 3;
 
 const bricks = [];
 for (let c = 0; c < brickColumnCount; c += 1) {
   bricks[c] = [];
   for (let r = 0; r < brickRowCount; r += 1) {
-    bricks[c][r] = { x: 0, y: 0, status: 1 };
+    bricks[c][r] = new Brick(0, 0);
   }
 }
 
@@ -62,7 +67,7 @@ function collisionDetection() {
   for (let c = 0; c < brickColumnCount; c += 1) {
     for (let r = 0; r < brickRowCount; r += 1) {
       const b = bricks[c][r];
-      if (b.status === 1) {
+      if (b.status === true) {
         if (
           x > b.x
           && x < b.x + brickWidth
@@ -71,8 +76,8 @@ function collisionDetection() {
         ) {
           dy = -dy;
           b.status = 0;
-          score += 1;
-          if (score === brickRowCount * brickColumnCount) {
+          score.update(1);
+          if (score.score === brickRowCount * brickColumnCount) {
             alert('YOU WIN, CONGRATULATIONS!');
             document.location.reload();
           }
@@ -83,19 +88,13 @@ function collisionDetection() {
 }
 
 function drawBall() {
-  ctx.beginPath();
-  ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
-  ctx.fillStyle = '#0095DD';
-  ctx.fill();
-  ctx.closePath();
+  const ball = new Ball(x, y, ballRadius);
+  ball.render(ctx);
 }
 
 function drawPaddle() {
-  ctx.beginPath();
-  ctx.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
-  ctx.fillStyle = '#0095DD';
-  ctx.fill();
-  ctx.closePath();
+  const paddle = new Paddle(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
+  paddle.render(ctx);
 }
 
 function drawBricks() {
@@ -106,7 +105,7 @@ function drawBricks() {
     // Determine the brickColumnCount for the current row
     const currentBrickColumnCount = r % 2 === 0 ? 10 : 5;
     for (let c = 0; c < currentBrickColumnCount; c += 1) {
-      if (bricks[c][r].status === 1) {
+      if (bricks[c][r].status === true) {
         if (r % 2 === 0) {
           brickWidth = smallBrickWidth;
           fillStyle = smallBrickColors;
@@ -118,20 +117,15 @@ function drawBricks() {
         const brickY = r * (brickHeight + brickPadding) + brickOffsetTop;
         bricks[c][r].x = brickX;
         bricks[c][r].y = brickY;
-        ctx.beginPath();
-        ctx.rect(brickX, brickY, brickWidth, brickHeight);
-        ctx.fillStyle = fillStyle[c % fillStyle.length];
-        ctx.fill();
-        ctx.closePath();
+        const brick = new Brick(brickX, brickY, brickWidth, brickHeight, fillStyle[c]);
+        brick.render(ctx);
       }
     }
   }
 }
 
 function drawScore() {
-  ctx.font = '16px Arial';
-  ctx.fillStyle = '#0095DD';
-  ctx.fillText(`Score: ${score}`, 8, 20);
+  score.render(ctx);
 }
 
 function drawLives() {
