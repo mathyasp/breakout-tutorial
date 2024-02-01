@@ -1,3 +1,6 @@
+/* eslint-disable import/extensions */
+/* eslint-disable no-alert */
+
 import Sprite from './Sprite.js';
 
 class Background extends Sprite {
