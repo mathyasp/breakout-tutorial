@@ -1,14 +1,55 @@
-/* eslint-disable import/extensions */
-/* eslint-disable no-alert */
-
-import Brick from './Brick.js';
-import Ball from './Ball.js';
-import Paddle from './Paddle.js';
-import Score from './Score.js';
-import Lives from './Lives.js';
+import Brick from './Brick';
+import Ball from './Ball';
+import Paddle from './Paddle';
+import Score from './Score';
+import Lives from './Lives';
 
 class Game {
-  constructor(canvas) {
+  canvas: HTMLCanvasElement;
+
+  ctx: CanvasRenderingContext2D;
+
+  width: number;
+
+  height: number;
+
+  ball: Ball;
+
+  score: Score;
+
+  lives: Lives;
+
+  paddle: Paddle;
+
+  rightPressed: boolean;
+
+  leftPressed: boolean;
+
+  brickRowCount: number;
+
+  brickColumnCount: number;
+
+  brickWidth: number;
+
+  smallBrickWidth: number;
+
+  bigBrickWidth: number;
+
+  brickHeight: number;
+
+  brickPadding: number;
+
+  brickOffsetTop: number;
+
+  brickOffsetLeft: number;
+
+  bricks: Brick[][];
+
+  smallBrickColors: string[];
+
+  bigBrickColors: string[];
+
+  constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
     this.ctx = this.canvas.getContext('2d');
     this.width = this.canvas.width;
@@ -65,7 +106,7 @@ class Game {
     }
   }
 
-  keyDownHandler(e) {
+  keyDownHandler(e: { key: string; }) {
     if (e.key === 'Right' || e.key === 'ArrowRight') {
       this.rightPressed = true;
     } else if (e.key === 'Left' || e.key === 'ArrowLeft') {
@@ -73,7 +114,7 @@ class Game {
     }
   }
 
-  keyUpHandler(e) {
+  keyUpHandler(e: { key: string; }) {
     if (e.key === 'Right' || e.key === 'ArrowRight') {
       this.rightPressed = false;
     } else if (e.key === 'Left' || e.key === 'ArrowLeft') {
@@ -81,7 +122,7 @@ class Game {
     }
   }
 
-  mouseMoveHandler(e) {
+  mouseMoveHandler(e: { clientX: number; }) {
     const relativeX = e.clientX - this.canvas.offsetLeft;
     if (relativeX > 0 && relativeX < this.width) {
       this.paddle.x = relativeX - this.paddle.width / 2;
@@ -98,7 +139,7 @@ class Game {
     document.addEventListener('mousemove', this.mouseMoveHandler, false);
   }
 
-  playAgain(winOrLose) {
+  playAgain(winOrLose: string) {
     const gameContainer = document.createElement('div');
     gameContainer.style.position = 'absolute';
     gameContainer.style.top = '0';
@@ -143,7 +184,7 @@ class Game {
             && this.ball.y < b.y + b.height
           ) {
             this.ball.dy *= -1;
-            b.status = 0;
+            b.status = false;
             this.score.update(1);
             if (this.score.score === this.brickRowCount * this.brickColumnCount) {
               this.playAgain('win');
