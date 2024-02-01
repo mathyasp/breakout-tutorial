@@ -98,6 +98,39 @@ class Game {
     document.addEventListener('mousemove', this.mouseMoveHandler, false);
   }
 
+  playAgain(winOrLose) {
+    const gameContainer = document.createElement('div');
+    gameContainer.style.position = 'absolute';
+    gameContainer.style.top = '0';
+    gameContainer.style.left = `${this.canvas.offsetLeft}px`;
+    gameContainer.style.width = `${this.width}px`;
+    gameContainer.style.height = `${this.height}px`;
+    gameContainer.style.backgroundColor = 'white';
+    gameContainer.style.display = 'flex';
+    gameContainer.style.justifyContent = 'center';
+    gameContainer.style.alignItems = 'center';
+
+    let message = '';
+
+    if (winOrLose === 'win') {
+      message = 'Congratulations! You won!';
+    } else {
+      message = 'Game over!';
+    }
+
+    const playAgainHTML = `
+      <div style="background-color: white; padding: 20px;">
+        <h2>${message}</h2>
+        <p>Do you want to play again?</p>
+        <button onclick="window.location.reload()">Yes</button>
+        <button onclick="alert('Thank you for playing!')">No</button>
+      </div>
+    `;
+
+    gameContainer.innerHTML = playAgainHTML;
+    document.body.appendChild(gameContainer);
+  }
+
   collisionDetection() {
     for (let c = 0; c < this.brickColumnCount; c += 1) {
       for (let r = 0; r < this.brickRowCount; r += 1) {
@@ -113,8 +146,7 @@ class Game {
             b.status = 0;
             this.score.update(1);
             if (this.score.score === this.brickRowCount * this.brickColumnCount) {
-              alert('YOU WIN, CONGRATULATIONS!');
-              document.location.reload();
+              this.playAgain('win');
             }
           }
         }
@@ -147,8 +179,7 @@ class Game {
       } else {
         this.lives.loseLife();
         if (this.lives.lives === 0) {
-          alert('GAME OVER');
-          document.location.reload();
+          this.playAgain('lose');
         } else {
           this.ball.x = this.width / 2;
           this.ball.y = this.height - 30;
