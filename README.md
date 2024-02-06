@@ -10,6 +10,7 @@ This project was intended to demonstrate certain concepts in JavaScrip
   - Classes
   - Inheritance
 - After that, practice working with bundling using `Webpack`
+- Finally, the code was converted to TypeScript to practice using explicit types.
 
 ## To Run:
 - Clone/download this repo
@@ -24,3 +25,5 @@ This project was intended to demonstrate certain concepts in JavaScrip
 - JavaScript
 - npm
 - Webpack
+- TypeScript
+- ESLint
