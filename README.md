@@ -14,7 +14,6 @@ This project was intended to demonstrate certain concepts in JavaScrip
 
 ## To Run:
 - Clone/download this repo
-- Navigate to the current branch (for now) by entering `git checkout bundling` in the terminal
 - Run `npm install` to install the dependencies
 - Run `npm run build` to launch Webpack in production mode
 - Open using live server
