@@ -20,7 +20,7 @@ This project was intended to demonstrate certain concepts in JavaScrip
 - Open using live server
 - Play the game!
 
-## (alternatively:)
+## (alternatively):
 - click the link in the `About` section on the right
 
 ## Tools/Technologies used:
